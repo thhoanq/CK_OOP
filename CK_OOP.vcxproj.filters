@@ -21,5 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="danhSachDocGia.csv" />
+    <None Include="danhSachBook.csv" />
+    <None Include="danhSachThe.csv" />
   </ItemGroup>
 </Project>
