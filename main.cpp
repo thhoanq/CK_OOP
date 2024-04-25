@@ -471,17 +471,26 @@ public:
 
 
 	void out() {
-		for (int i = 0; i < dsDg.size(); i++) {
-			DocGia* dg = dsDg[i];
-			TheThuVien* the = dg->getTheThuVien();
-			cout << "Ten doc gia: " << dg->getTen() << "\n";
-			cout << "Tuoi doc gia: " << dg->getTuoi() << "\n"; // Thêm dòng này để hiển thị tuổi của đọc giả
-			cout << "Ma the: " << the->getIdThe() << "\n";
-			the->getListSach();
-			cout << "Thang dang ky: " << the->getThangDK() << "\n";
-			cout << "\n";
-		}
-	}
+    for (int i = 0; i < dsDg.size(); i++) {
+        DocGia* dg = dsDg[i];
+        TheThuVien* the = dg->getTheThuVien();
+        cout << "Ten doc gia: " << dg->getTen() << "\n";
+        cout << "Tuoi doc gia: " << dg->getTuoi() << "\n";
+        cout << "Ma the: " << the->getIdThe() << "\n";
+        cout << "Sach dang muon:\n";
+        if (!the->getBooks().empty()) {
+            for (Sach* sach : the->getBooks()) {
+                cout << "- ID Sach: " << sach->getIdSach() << ", Ten Sach: " << sach->getTen() << "\n";
+            }
+        } else {
+            cout << "Khong co sach nao\n";
+        }
+
+        cout << "Thang dang ky: " << the->getThangDK() << "\n";
+        cout << "\n";
+    }
+}
+
 	void xoasach(){
 		int idthe, idSach;
 		cout << "Nhap Ma so the cua doc gia: ";
