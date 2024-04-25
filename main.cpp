@@ -96,15 +96,17 @@ public:
 	}
 
 	void xoaSach(int idSach) {
-    for (auto it = books.begin(); it != books.end(); ++it) {
-        if ((*it)->getIdSach() == idSach) {
-            delete *it;  // Giải phóng bộ nhớ của sách
-            books.erase(it);  // Xóa sách khỏi vector
-            return;  // Thoát khỏi hàm ngay sau khi tìm và xóa sách
-        }
-    }
-    // Không cần thông báo nếu không tìm thấy sách; hàm chỉ thực hiện và kết thúc
-}
+		for (auto it = books.begin(); it != books.end(); ++it) {
+			if ((*it)->getIdSach() == idSach) {
+				(*it)->setThe(nullptr); 
+				books.erase(it); 
+				cout << "Da xoa sach co ID " << idSach << " va set lien ket the ve nullptr.\n";
+				return;
+			}
+		}
+		cout << "Khong tim thay sach voi ID " << idSach << " trong danh sach.\n";
+	}
+
 
 	// Get danh sách sách
 	// void getListSach() {
@@ -129,6 +131,9 @@ public:
 	vector<Sach*> getBooks() const {
         return books;
     }
+	void setIdThe(int newID){
+		idThe = newID;
+	}
 
 
 	// Tính tiền mỗi năm
@@ -200,6 +205,9 @@ public:
 	int getIdDocGia(){
 		return idDocGia;
 	}
+	void setIdDocGia(int newId) {
+        idDocGia = newId;  
+    }
 	
 };
 
@@ -356,28 +364,21 @@ public:
 	void ThemDocGia() {
 		int idDocGia, tuoi, idThe, thangDK;
 		string ten, type;
-		cout << "Nhap ID Doc Gia: ";
-		cin >> idDocGia;
+		idDocGia = dsDg.size() + 1;
 		cout << "Nhap Ten Doc Gia: ";
 		cin.ignore();
 		getline(cin, ten);
-		
-		do{
+
+		do {
 			cout << "Nhap Tuoi Doc Gia: ";
 			cin >> tuoi;
-			if(tuoi<0 && tuoi>110){
-				cout<<"So tuoi khong hop le";
+			if (tuoi < 0 || tuoi > 110) {
+				cout << "So tuoi khong hop le";
 			}
-		}while(tuoi<0 && tuoi>110);
-		// Thêm thẻ thư viện cho độc giả mới
-		cout << "Nhap ID The: ";
-		cin >> idThe;
-		if(tuoi >= 18){
-			type = "Adult";
-		}
-		else{
-			type = "Child";
-		}
+		} while (tuoi < 0 || tuoi > 110);
+
+		idThe = idDocGia;
+		type = tuoi >= 18 ? "Adult" : "Child";
 		cout << "Nhap Thang DK: ";
 		cin >> thangDK;
 
@@ -389,30 +390,25 @@ public:
 		}
 		dsTtv.push_back(the);
 
-		// Tạo độc giả mới với thẻ vừa thêm
 		DocGia* docGia = new DocGia(idDocGia, ten, tuoi, the);
 		dsDg.push_back(docGia);
 
-		// Hỏi người dùng xem độc giả có mượn sách không
-		cout << "Doc gia co muon sach khong (Co/Khong):\n1.Co\n2.Khong\nNhap lua chon: ";
-		int response;
-		cin >> response;
-		if (response == 1) {
-			int idSach;
-			string tenSach;
-			cout << "Nhap ID Sach: ";
-			cin >> idSach;
-			cout << "Nhap Ten Sach: ";
-			cin.ignore();
-			getline(cin, tenSach);
 
-			Sach* sach = new Sach(idSach, tenSach);
-			the->themSach(sach);  
-			dsS.push_back(sach);
-		}
-
-		cout << "Doc gia va the thu vien da duoc them vao he thong.\n";
+		cout << "\nDoc gia va the thu vien da duoc them vao he thong.\n";
 	}
+	void hienThiSachChuaMuon() {
+        int count = 0;  // Biến đếm số sách chưa được mượn
+        cout << "Danh sach cac cuon sach chua duoc muon:\n";
+        for (int i = 0; i < dsS.size(); i++) {
+            if (dsS[i]->getThe() == nullptr) {  // Kiểm tra nếu thẻ của sách là nullptr
+                cout << "ID Sach: " << dsS[i]->getIdSach() << ", Ten Sach: " << dsS[i]->getTen() << endl;
+                count++;  // Tăng biến đếm
+            }
+        }
+        if (count == 0) {
+            cout << "Tat ca cac cuon sach deu da duoc muon.\n";
+        }
+    }
 
 	void deleteDocGia() {
 		int idThe;
@@ -421,51 +417,75 @@ public:
 
 		for (auto it = dsDg.begin(); it != dsDg.end(); ++it) {
 			if ((*it)->getTheThuVien() && (*it)->getTheThuVien()->getIdThe() == idThe) {
-				delete *it; 
-				it = dsDg.erase(it); 
+				// Lấy ra thẻ thư viện của độc giả
+				TheThuVien* the = (*it)->getTheThuVien();
+				if (the) {
+					// Duyệt qua danh sách sách của thẻ và set 'the' của mỗi sách thành nullptr
+					vector<Sach*> books = the->getBooks();
+					for (int i = 0; i < books.size(); i++) {
+						Sach* sach = books[i];  // Lấy ra sách tại vị trí thứ i
+						sach->setThe(nullptr);  // Set thuộc tính 'the' của sách thành nullptr
+					}
+				}
+				delete *it;  // Xóa đối tượng độc giả
+				it = dsDg.erase(it);  // Xóa phần tử khỏi vector và cập nhật iterator
 				cout << "\n=====>Doc gia voi Ma The " << idThe << " da duoc xoa.\n";
-				return; 
+
+				// Giảm ID của các độc giả và thẻ sau độc giả đã xóa
+				while (it != dsDg.end()) {
+					(*it)->setIdDocGia((*it)->getIdDocGia() - 1);  // Giảm ID độc giả
+					if ((*it)->getTheThuVien()) {  // Kiểm tra nếu có thẻ thư viện
+						(*it)->getTheThuVien()->setIdThe((*it)->getTheThuVien()->getIdThe() - 1);  // Giảm mã thẻ
+					}
+					++it;
+				}
+				return;
 			}
 		}
-//**************************************************************************************
 		cout << "Khong tim thay doc gia voi Ma The " << idThe << ".\n";
 	}
 
 
+
 	void chinhsuasach(){
-		int idThe;
-		cout << "Nhap Ma The cua Doc Gia can cap nhat sach: ";
-		cin >> idThe;
+    int idThe;
+    cout << "Nhap Ma The cua Doc Gia can cap nhat sach: ";
+    cin >> idThe;
 
-		for (int i = 0; i < dsDg.size(); i++) {
-			DocGia* dg = dsDg[i];  
-			if (dg->getTheThuVien() && dg->getTheThuVien()->getIdThe() == idThe) {
-				int idSach;
-				string tenSach;
-				cout << "Nhap ID Sach moi: ";
-				cin >> idSach;
-				cout << "Nhap Ten Sach moi: ";
-				cin.ignore();
-				getline(cin, tenSach);
+    for (int i = 0; i < dsDg.size(); i++) {
+        DocGia* dg = dsDg[i];
+        if (dg->getTheThuVien() && dg->getTheThuVien()->getIdThe() == idThe) {
+            int idSach, found = 0;  
+            hienThiSachChuaMuon();  
+            cout << "Nhap ID Sach muon: ";
+            cin >> idSach;
 
-				Sach* sach = new Sach(idSach, tenSach);
-				dg->getTheThuVien()->themSach(sach); 
-				dsS.push_back(sach);  
+            for (int j = 0; j < dsS.size(); j++) {
+                if (dsS[j]->getIdSach() == idSach && dsS[j]->getThe() == nullptr) {
+                    dsS[j]->setThe(dg->getTheThuVien());
+                    dg->getTheThuVien()->themSach(dsS[j]);
+                    cout << "\n==========>Doc gia co ma the " << idThe << " da muon thanh cong.\n";
+                    found = 1;  
+                    break;
+                }
+            }
+            if (found == 0) {  
+                cout << "Khong tim thay sach voi ID nhap vao hoac sach da co nguoi muon.\n";
+            }
+            return;
+        }
+    }
 
-				cout << "\n==========>Da them sach moi cho doc gia voi Ma The " << idThe << ".\n";
-				return;  
-			}
-		}
+    cout << "\n========>Khong tim thay doc gia voi Ma The " << idThe << ".\n";
+}
 
-		cout << "\n========>Khong tim thay doc gia voi Ma The " << idThe << ".\n";
-	}
 
 	void tracuu(){
 		int idThe;
 		cout << "Nhap Ma The cua Doc Gia can tra cuu: ";
 		cin >> idThe;
 		for (int i = 0; i < dsDg.size(); i++) {
-			DocGia* dg = dsDg[i];  // Lấy ra đối tượng DocGia từ iterator
+			DocGia* dg = dsDg[i]; 
 			if (dg->getTheThuVien() && dg->getTheThuVien()->getIdThe() == idThe) {
 				cout << "\n========Thong tin Doc Gia=====\n";
 				cout << "ID Doc Gia: " << dg->getIdDocGia() << "\n";
@@ -526,32 +546,40 @@ public:
     }
 }
 
-	void xoasach(){
-		int idthe, idSach;
+	void xoasach() {
+		int idThe, idSach;
 		cout << "Nhap Ma so the cua doc gia: ";
-		cin >> idthe;
+		cin >> idThe;
 		cout << "Nhap ID Sach can xoa: ";
 		cin >> idSach;
 
 		for (int i = 0; i < dsDg.size(); i++) {
-			DocGia* dg = dsDg[i];  
-			if (dg->getTheThuVien() && dg->getTheThuVien()->getIdThe() == idthe) {  
-				if (dg->getTheThuVien()) { 
-					dg->getTheThuVien()->xoaSach(idSach);  
-					cout << "==========>Da Xoa Sach Co ID " << idSach << "\n";
-					return;  
-				}
-				cout << "===========>Doc Gia Khong Co Trong Thu Vien.\n";
-				return;  
+			DocGia* dg = dsDg[i];
+			if (dg->getTheThuVien() && dg->getTheThuVien()->getIdThe() == idThe) {
+				dg->getTheThuVien()->xoaSach(idSach);
+				return;
 			}
 		}
-
-		cout << "\n===========>Không tìm thấy độc giả với Ma So " << idthe << ".\n";  
+		cout << "Khong tim thay doc gia voi Ma so the " << idThe << ".\n";
 	}
+
+	void themSach() {
+        int idSach;
+        string tenSach;
+        idSach = dsS.size()+1;
+        cin.ignore();  // Xóa bộ đệm đầu vào
+        cout << "Nhap Ten Sach moi: ";
+        getline(cin, tenSach);
+        Sach* sachMoi = new Sach(idSach, tenSach);
+        dsS.push_back(sachMoi);
+        cout << "\nSach moi da duoc them vao thu vien.\n";
+    }
+
 	
 
 	void luachon(){
 		int luachon;
+		docFile();
 		do{
 			cout << "\n1. Them Doc Gia";
 			cout << "\n2. Xoa Doc Gia";
@@ -560,6 +588,7 @@ public:
 			cout << "\n5. Cap nhat sach cua doc gia";
 			cout << "\n6. Tinh tien doc gia thong qua Ma The";
 			cout << "\n7. Ghi file";
+			cout << "\n8. Them sach vao thu vien";
 			cout << "\n0. Thoat chuong trinh\n";
 			cout << "(!) Nhap lua chon: ";
 			cin >> luachon;
@@ -581,7 +610,7 @@ public:
 						ThemDocGia();
 						break;
 					case 2:
-						docFile();
+						
 						break;
 					default:
 						break;
@@ -624,6 +653,9 @@ public:
 				break;
 			case 6:
 				TraTien();
+				break;
+			case 8:
+				themSach();
 				break;
 			default:
 				break;
