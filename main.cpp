@@ -10,7 +10,6 @@ class Sach;
 class TheThuVien;
 class DocGia;
 
-
 /*======================================================================================
 									CLASS SÁCH
 ======================================================================================*/
@@ -44,7 +43,6 @@ public:
         return idSach;
     }
 };
-
 
 /*======================================================================================
 								CLASS THẺ THƯ VIỆN
@@ -107,34 +105,13 @@ public:
 		cout << "Khong tim thay sach voi ID " << idSach << " trong danh sach.\n";
 	}
 
-
-	// Get danh sách sách
-	// void getListSach() {
-	// 	for (int i = 0; i < books.size(); i++)
-	// 		cout << books[i]->getTen() << books[i]->getThe()->getThangDK() << "\n";
-	// }
-	
-	void outListSach() {
-		if (books.empty()) {
-			cout << "Sach muon: Khong co\n";
-		} else {
-			cout << "Sach muon: ";
-			for (int i = 0; i < books.size(); i++) {
-				cout << books[i]->getTen();
-				if (i < books.size() - 1)
-					cout << ", "; 
-			}
-			cout << "\n";
-		}
-	}
-
 	vector<Sach*> getBooks() const {
         return books;
     }
+
 	void setIdThe(int newID){
 		idThe = newID;
 	}
-
 
 	// Tính tiền mỗi năm
 	virtual double tinhTien() = 0;
@@ -147,7 +124,7 @@ public:
 		: TheThuVien(idThe_arg, type_arg, thangDK_arg) {};
 
 	double tinhTien() override {
-		return 100 * thangDK;
+		return 100000 * thangDK;
 	}
 };
 
@@ -158,10 +135,9 @@ public:
 		: TheThuVien(idThe_arg, type_arg, thangDK_arg) {};
 
 	double tinhTien() override {
-		return 20 * thangDK;
+		return 20000 * thangDK;
 	}
 };
-
 
 /*======================================================================================
 									CLASS ĐỘC GIẢ
@@ -173,7 +149,6 @@ private:
 	string ten;
 	int tuoi;
 	TheThuVien* theThuVien;
-
 public:
 	DocGia(int idDocGia_arg, string ten_arg, int tuoi_arg)
 		: idDocGia(idDocGia_arg), ten(ten_arg), tuoi(tuoi_arg) {
@@ -196,22 +171,22 @@ public:
 	}
 
 	// Get tên
-	int getTuoi(){
+	int getTuoi() {
 		return tuoi;
 	}
+
 	string getTen() {
 		return ten;
 	}
-	int getIdDocGia(){
+
+	int getIdDocGia() {
 		return idDocGia;
 	}
+
 	void setIdDocGia(int newId) {
-        idDocGia = newId;  
-    }
-	
+		idDocGia = newId;
+	}
 };
-
-
 
 class Menu
 {
@@ -234,8 +209,6 @@ public:
 		}
 
 		string line;
-
-		vector <string> temp;
 		while (getline(fileThe, line)) {
 			int idThe_temp; string type_temp; int thangDK_temp; string dsSach;
 
@@ -264,7 +237,6 @@ public:
 			else if (type_temp == "Child")
 				the_temp = new TheTreCon(idThe_temp, type_temp, thangDK_temp);
 			dsTtv.push_back(the_temp);
-			temp.push_back(dsSach);
 		}
 
 		while (getline(fileSach, line)) {
@@ -296,8 +268,6 @@ public:
 			}
 			dsS.push_back(s_temp);
 		}
-
-
 
 		while (getline(fileDG, line)) {
 			int idDocGia_temp; string ten_temp; int tuoi_temp;
@@ -396,7 +366,6 @@ public:
 		DocGia* docGia = new DocGia(idDocGia, ten, tuoi, the);
 		dsDg.push_back(docGia);
 
-
 		cout << "\nDoc gia va the thu vien da duoc them vao he thong.\n";
 	}
 	void hienThiSachChuaMuon() {
@@ -408,9 +377,7 @@ public:
                 count++;  // Tăng biến đếm
             }
         }
-        if (count == 0) {
-            cout << "Tat ca cac cuon sach deu da duoc muon.\n";
-        }
+        if (count == 0) cout << "Tat ca cac cuon sach deu da duoc muon.\n";
     }
 
 	void deleteDocGia() {
@@ -448,38 +415,35 @@ public:
 		cout << "Khong tim thay doc gia voi Ma The " << idThe << ".\n";
 	}
 
-
 	void chinhsuasach(){
-    int idThe;
-    cout << "Nhap Ma The cua Doc Gia can cap nhat sach: ";
-    cin >> idThe;
+		int idThe;
+		cout << "Nhap Ma The cua Doc Gia can cap nhat sach: ";
+		cin >> idThe;
 
-    for (int i = 0; i < dsDg.size(); i++) {
-        DocGia* dg = dsDg[i];
-        if (dg->getTheThuVien() && dg->getTheThuVien()->getIdThe() == idThe) {
-            int idSach, found = 0;  
-            hienThiSachChuaMuon();  
-            cout << "Nhap ID Sach muon: ";
-            cin >> idSach;
+		for (int i = 0; i < dsDg.size(); i++) {
+			DocGia* dg = dsDg[i];
+			if (dg->getTheThuVien() && dg->getTheThuVien()->getIdThe() == idThe) {
+				int idSach, found = 0;  
+				hienThiSachChuaMuon();  
+				cout << "Nhap ID Sach muon: ";
+				cin >> idSach;
 
-            for (int j = 0; j < dsS.size(); j++) {
-                if (dsS[j]->getIdSach() == idSach && dsS[j]->getThe() == nullptr) {
-                    dsS[j]->setThe(dg->getTheThuVien());
-                    dg->getTheThuVien()->themSach(dsS[j]);
-                    cout << "\n==========>Doc gia co ma the " << idThe << " da muon thanh cong.\n";
-                    found = 1;  
-                    break;
-                }
-            }
-            if (found == 0) {  
-                cout << "Khong tim thay sach voi ID nhap vao hoac sach da co nguoi muon.\n";
-            }
-            return;
-        }
-    }
-    cout << "\n========>Khong tim thay doc gia voi Ma The " << idThe << ".\n";
-}
-
+				for (int j = 0; j < dsS.size(); j++) {
+					if (dsS[j]->getIdSach() == idSach && dsS[j]->getThe() == nullptr) {
+						dsS[j]->setThe(dg->getTheThuVien());
+						dg->getTheThuVien()->themSach(dsS[j]);
+						cout << "\n==========>Doc gia co ma the " << idThe << " da muon thanh cong.\n";
+						found = 1;  
+						break;
+					}
+				}
+				if (found == 0)
+					cout << "Khong tim thay sach voi ID nhap vao hoac sach da co nguoi muon.\n";
+				return;
+			}
+		}
+		cout << "\n========>Khong tim thay doc gia voi Ma The " << idThe << ".\n";
+	}
 
 	void tracuu(){
 		int idThe;
@@ -489,63 +453,56 @@ public:
 			DocGia* dg = dsDg[i]; 
 			if (dg->getTheThuVien() && dg->getTheThuVien()->getIdThe() == idThe) {
 				cout << "\n========Thong tin Doc Gia=====\n";
-				cout << "ID Doc Gia: " << dg->getIdDocGia() << "\n";
-				cout << "Ten Doc Gia: " << dg->getTen() << "\n";
-				cout << "Tuoi Doc Gia: " << dg->getTuoi() << "\n";
-				cout << "Ma The: " << dg->getTheThuVien()->getIdThe() << "\n";
-				cout << "Sach dang muon:\n";
+				cout << "- ID Doc Gia: " << dg->getIdDocGia() << "\n";
+				cout << "- Ten Doc Gia: " << dg->getTen() << "\n";
+				cout << "- Tuoi Doc Gia: " << dg->getTuoi() << "\n";
+				cout << "- Ma The: " << dg->getTheThuVien()->getIdThe() << "\n";
+				cout << "- Sach dang muon:\n";
 				if (!dg->getTheThuVien()->getBooks().empty()) {
 					for (Sach* sach : dg->getTheThuVien()->getBooks()) {
-						cout << "- " << sach->getTen() << "\n";
+						cout << "+ " << sach->getTen() << "\n";
 					}
-				} else {
-					cout << "Khong co sach nao\n";
-				}
+				} else
+					cout << "(!) Khong co sach nao\n";
 				return; 
 			}
 		}
-
-		cout << "Khong tim thay doc gia voi Ma The " << idThe << ".\n";
-		}
+		cout << "(!) Khong tim thay doc gia voi Ma The " << idThe << ".\n";
+	}
 
 	void TraTien(){
 		int idThe;
 		cout << "Nhap Ma So The cua Doc Gia: ";
 		cin >> idThe;
 
-
 		for (int i = 0; i < dsDg.size(); i++) {
 			DocGia* dg = dsDg[i];  
 			if (dg->getTheThuVien() && dg->getTheThuVien()->getIdThe() == idThe) {   
-				cout << "Tong so tien phai tra la: " << dg->getTheThuVien()->tinhTien() << ".000 VND" << endl;
+				cout << "Tong so tien phai tra la: " << dg->getTheThuVien()->tinhTien() << " VND" << endl;
 				return;  
 			}
 		}
-
-		cout << "Khong tim thay doc gia voi Ma So The " << idThe << "." << endl;
-		}
-
+		cout << "(!) Khong tim thay doc gia voi Ma So The " << idThe << "." << endl;
+	}
 
 	void out() {
-    for (int i = 0; i < dsDg.size(); i++) {
-        DocGia* dg = dsDg[i];
-        TheThuVien* the = dg->getTheThuVien();
-        cout << "Ten doc gia: " << dg->getTen() << "\n";
-        cout << "Tuoi doc gia: " << dg->getTuoi() << "\n";
-        cout << "Ma the: " << the->getIdThe() << "\n";
-        cout << "Sach dang muon:\n";
-        if (!the->getBooks().empty()) {
-            for (Sach* sach : the->getBooks()) {
-                cout << "- ID Sach: " << sach->getIdSach() << ", Ten Sach: " << sach->getTen() << "\n";
-            }
-        } else {
-            cout << "Khong co sach nao\n";
-        }
-
-        cout << "Thang dang ky: " << the->getThangDK() << "\n";
-        cout << "\n";
-    }
-}
+		for (int i = 0; i < dsDg.size(); i++) {
+			DocGia* dg = dsDg[i];
+			TheThuVien* the = dg->getTheThuVien();
+			cout << "- Ten doc gia: " << dg->getTen() << "\n";
+			cout << "- Tuoi doc gia: " << dg->getTuoi() << "\n";
+			cout << "- Ma the: " << the->getIdThe() << "\n";
+			cout << "- Sach dang muon:\n";
+			if (!the->getBooks().empty()) {
+				for (Sach* sach : the->getBooks()) {
+					cout << "+ ID Sach: " << sach->getIdSach() << ", Ten Sach: " << sach->getTen() << "\n";
+				}
+			} else
+				cout << "(!) Khong co sach nao\n";
+			cout << "- Thang dang ky: " << the->getThangDK() << "\n";
+			cout << "\n";
+		}
+	}
 
 	void xoasach() {
 		int idThe, idSach;
@@ -576,38 +533,35 @@ public:
         cout << "\nSach moi da duoc them vao thu vien.\n";
     }
 
-	
-
 	void luachon(){
 		docFile();
 		int luachon;
-		
 		do{
-			cout << "\n1. Them Doc Gia";
-			cout << "\n2. Xoa Doc Gia";
-			cout << "\n3. Xuat danh sach hien tai";
-			cout << "\n4. Tra cuu doc gia";
-			cout << "\n5. Cap nhat sach cua doc gia";
-			cout << "\n6. Tinh tien doc gia thong qua Ma The";
-			cout << "\n7. Ghi file";
-			cout << "\n8. Them sach vao thu vien";
-			cout << "\n0. Thoat chuong trinh\n";
-			cout << "(!) Nhap lua chon: ";
+			cout << "\n+--------------------------------------------------------+";
+			cout << "\n|    1. Them doc gia                                     |";
+			cout << "\n|    2. Xoa doc gia                                      |";
+			cout << "\n|    3. Xuat danh sach doc gia                           |";
+			cout << "\n|    4. Tra cuu doc gia                                  |";
+			cout << "\n|    5. Cap nhat sach cua doc gia                        |";
+			cout << "\n|    6. Tinh tien doc gia thong qua ma The               |";
+			cout << "\n|    7. Ghi file                                         |";
+			cout << "\n|    8. Them sach vao thu vien                           |";
+			cout << "\n|    0. Thoat chuong trinh                               |";
+			cout << "\n+--------------------------------------------------------+";
+			cout << "\n(!) Nhap lua chon: ";
 			cin >> luachon;
 			switch (luachon) {
 			case 1:
-				
 				ThemDocGia();
-
 				cout<<"\n=====>Them Thanh Cong\n";
 				break;
 			case 2:
 				deleteDocGia();
 				break;
 			case 3:
-				cout<<"\n=====================================DANH SACH HIEN TAI==============================\n";
+				cout<<"\n==============================DANH SACH HIEN TAI==============================\n";
 				out();
-				cout<<"\n=====================================================================================\n";
+				cout<<"\n==============================================================================\n";
 				break;
 			case 4:
 				tracuu();
@@ -621,8 +575,7 @@ public:
 					if(n!=1 && n!=2){
 						cout<<"Lua chon khong hop le!\n";
 					}
-					
-				}while(n!=1 && n!=2);
+				} while (n != 1 && n != 2);
 				switch (n)
 					{
 					case 1:
@@ -634,7 +587,6 @@ public:
 					default:
 						break;
 					}
-				
 				break;
 			case 6:
 				TraTien();
@@ -648,10 +600,8 @@ public:
 			default:
 				break;
 			}
-
 		}while(luachon!=0);
 	}
-
 };
 
 int main() {
