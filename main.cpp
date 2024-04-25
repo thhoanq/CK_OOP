@@ -220,7 +220,7 @@ public:
 		fileSach.open("danhSachBook.csv");
 		fileThe.open("danhSachThe.csv");
 
-		if (!fileDG.is_open() || !fileSach.is_open()) {
+		if (!fileDG.is_open() || !fileSach.is_open() || !fileThe.is_open()) {
 			cout << "Ko the mo file." << "\n";
 			return;
 		}
@@ -328,7 +328,7 @@ public:
 		fileSach.open("danhSachBook.csv");
 		fileThe.open("danhSachThe.csv");
 
-		if (!fileDG.is_open() || !fileSach.is_open()) {
+		if (!fileDG.is_open() || !fileSach.is_open() || !fileThe.is_open()) {
 			cout << "Ko the mo file." << "\n";
 			return;
 		}
@@ -336,13 +336,24 @@ public:
 		for (int i = 0; i < dsDg.size(); i++) {
 			fileDG << dsDg[i]->getIdDocGia() << "," << dsDg[i]->getTen() << "," << dsDg[i]->getTuoi() << "\n";
 			fileThe << dsTtv[i]->getIdThe() << "," << dsTtv[i]->getType() << ",";
-			for (int j = 0; j < dsTtv[i]->getBooks().size(); i++) {
-				fileThe << dsTtv[i]->getBooks()[i]->getIdSach();
-				if (dsTtv[i]->getBooks()[i + 1] != nullptr)
+			for (int j = 0; j < dsTtv[i]->getBooks().size(); j++) {
+				fileThe << dsTtv[i]->getBooks()[j]->getIdSach();
+				if (j != (dsTtv[i]->getBooks().size() - 1))
 					fileThe << ";";
 			}
 			fileThe << "\n";
 		}
+
+		for (int i = 0; i < dsS.size(); i++) {
+			fileSach << dsS[i]->getIdSach() << "," << dsS[i]->getTen() << ",";
+			if (dsS[i]->getThe() != nullptr) {
+				fileSach << dsS[i]->getThe()->getIdThe();
+			}
+			fileSach << "\n";
+		}
+		fileDG.close();
+		fileSach.close();
+		fileThe.close();
 	}
 
 	// void out() {
@@ -624,6 +635,9 @@ public:
 				break;
 			case 6:
 				TraTien();
+				break;
+			case 7:
+				ghiFile();
 				break;
 			default:
 				break;
