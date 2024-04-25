@@ -343,7 +343,7 @@ public:
 
 		for (int i = 0; i < dsDg.size(); i++) {
 			fileDG << dsDg[i]->getIdDocGia() << "," << dsDg[i]->getTen() << "," << dsDg[i]->getTuoi() << "\n";
-			fileThe << dsTtv[i]->getIdThe() << "," << dsTtv[i]->getType() << ",";
+			fileThe << dsTtv[i]->getIdThe() << "," << dsTtv[i]->getType() << "," << dsTtv[i]->getThangDK() << ",";
 			for (int j = 0; j < dsTtv[i]->getBooks().size(); j++) {
 				fileThe << dsTtv[i]->getBooks()[j]->getIdSach();
 				if (j != (dsTtv[i]->getBooks().size() - 1))
@@ -363,14 +363,6 @@ public:
 		fileSach.close();
 		fileThe.close();
 	}
-
-	// void out() {
-	// 	for (int i = 0; i < dsDg.size(); i++) {
-	// 		cout <<"Ten Doc Gia: "<<dsDg[i]->getTen() << "\n";
-	// 		dsDg[i]->getTheThuVien()->getListSach();
-	// 	}
-	// }
-
 
 	void ThemDocGia() {
 		int idDocGia, tuoi, idThe, thangDK;
@@ -457,7 +449,6 @@ public:
 	}
 
 
-
 	void chinhsuasach(){
     int idThe;
     cout << "Nhap Ma The cua Doc Gia can cap nhat sach: ";
@@ -486,7 +477,6 @@ public:
             return;
         }
     }
-
     cout << "\n========>Khong tim thay doc gia voi Ma The " << idThe << ".\n";
 }
 
@@ -589,8 +579,9 @@ public:
 	
 
 	void luachon(){
-		int luachon;
 		docFile();
+		int luachon;
+		
 		do{
 			cout << "\n1. Them Doc Gia";
 			cout << "\n2. Xoa Doc Gia";
@@ -605,27 +596,9 @@ public:
 			cin >> luachon;
 			switch (luachon) {
 			case 1:
-				cout<<"1.Them thu cong.\n2.Them bang file.\n";
-				int n;
-				do{
-					cout<<"Nhap lua chon (1 hoac 2): ";
-					cin>>n;
-					if(n!=1 && n!=2){
-						cout<<"Lua chon khong hop le!\n";
-					}
-					
-				}while(n!=1 && n!=2);
-				switch (n)
-					{
-					case 1:
-						ThemDocGia();
-						break;
-					case 2:
-						
-						break;
-					default:
-						break;
-					}
+				
+				ThemDocGia();
+
 				cout<<"\n=====>Them Thanh Cong\n";
 				break;
 			case 2:
@@ -640,6 +613,7 @@ public:
 				tracuu();
 				break;
 			case 5:
+				int n;
 				cout<<"\n1.Doc gia muon them sach\n2.Doc gia tra sach\n";
 				do{
 					cout<<"Nhap lua chon (1 hoac 2): ";
@@ -665,12 +639,11 @@ public:
 			case 6:
 				TraTien();
 				break;
-
-			case 8:
-				themSach();
 			case 7:
 				ghiFile();
-
+				break;
+			case 8:
+				themSach();
 				break;
 			default:
 				break;

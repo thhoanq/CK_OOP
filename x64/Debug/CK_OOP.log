@@ -1,20 +1,17 @@
 ﻿  main.cpp
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(560,11): warning C4566: character represented by universal-character-name '\u1EA5' cannot be represented in the current code page (1252)
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(560,11): warning C4566: character represented by universal-character-name '\u0111' cannot be represented in the current code page (1252)
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(560,11): warning C4566: character represented by universal-character-name '\u1ED9' cannot be represented in the current code page (1252)
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(560,11): warning C4566: character represented by universal-character-name '\u1EA3' cannot be represented in the current code page (1252)
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(560,11): warning C4566: character represented by universal-character-name '\u1EDB' cannot be represented in the current code page (1252)
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(235,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(239,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(243,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(243,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(247,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(251,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(266,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(270,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(274,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(255,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(259,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(274,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(278,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(298,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(302,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(306,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(282,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(286,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(306,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(310,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(314,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(318,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(378,26): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\CK_OOP\main.cpp(580,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   CK_OOP.vcxproj -> D:\HCMUS\Nam_3\Ky2\OOP\Code\nhap\x64\Debug\CK_OOP.exe
