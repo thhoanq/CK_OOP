@@ -1,4 +1,7 @@
-﻿#include<bits/stdc++.h>
+﻿#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
 
 using namespace std;
 
@@ -63,6 +66,11 @@ public:
 		return idThe;
 	}
 
+	// Get type
+	string getType() {
+		return type;
+	}
+
 	// Set, get tháng đk
 	void setThangDK(int thangDK_arg) {
 		thangDK = thangDK_arg;
@@ -104,7 +112,7 @@ public:
 	// 		cout << books[i]->getTen() << books[i]->getThe()->getThangDK() << "\n";
 	// }
 	
-	void getListSach() {
+	void outListSach() {
 		if (books.empty()) {
 			cout << "Sach muon: Khong co\n";
 		} else {
@@ -117,6 +125,7 @@ public:
 			cout << "\n";
 		}
 	}
+
 	vector<Sach*> getBooks() const {
         return books;
     }
@@ -311,6 +320,31 @@ public:
 		fileThe.close();
 	}
 
+	void ghiFile() {
+		ofstream fileDG;
+		ofstream fileSach;
+		ofstream fileThe;
+		fileDG.open("danhSachDocGia.csv");
+		fileSach.open("danhSachBook.csv");
+		fileThe.open("danhSachThe.csv");
+
+		if (!fileDG.is_open() || !fileSach.is_open()) {
+			cout << "Ko the mo file." << "\n";
+			return;
+		}
+
+		for (int i = 0; i < dsDg.size(); i++) {
+			fileDG << dsDg[i]->getIdDocGia() << "," << dsDg[i]->getTen() << "," << dsDg[i]->getTuoi() << "\n";
+			fileThe << dsTtv[i]->getIdThe() << "," << dsTtv[i]->getType() << ",";
+			for (int j = 0; j < dsTtv[i]->getBooks().size(); i++) {
+				fileThe << dsTtv[i]->getBooks()[i]->getIdSach();
+				if (dsTtv[i]->getBooks()[i + 1] != nullptr)
+					fileThe << ";";
+			}
+			fileThe << "\n";
+		}
+	}
+
 	// void out() {
 	// 	for (int i = 0; i < dsDg.size(); i++) {
 	// 		cout <<"Ten Doc Gia: "<<dsDg[i]->getTen() << "\n";
@@ -330,7 +364,7 @@ public:
 		
 		do{
 			cout << "Nhap Tuoi Doc Gia: ";
-			cin>>tuoi;
+			cin >> tuoi;
 			if(tuoi<0 && tuoi>110){
 				cout<<"So tuoi khong hop le";
 			}
@@ -338,7 +372,7 @@ public:
 		// Thêm thẻ thư viện cho độc giả mới
 		cout << "Nhap ID The: ";
 		cin >> idThe;
-		if(tuoi>18){
+		if(tuoi >= 18){
 			type = "Adult";
 		}
 		else{
@@ -425,6 +459,7 @@ public:
 
 		cout << "\n========>Khong tim thay doc gia voi Ma The " << idThe << ".\n";
 	}
+
 	void tracuu(){
 		int idThe;
 		cout << "Nhap Ma The cua Doc Gia can tra cuu: ";
@@ -518,11 +553,17 @@ public:
 	void luachon(){
 		int luachon;
 		do{
-			cout<<"\n1.Them Doc Gia\n2.Xoa Doc Gia\n3.Xuat danh sach hien tai\n4.Tra cuu doc gia\n5.Cap nhat sach cua doc gia\n6.Tinh tien doc gia thong qua Ma The\n0.Thoat chuong trinh\n";
-			cout<<"Nhap lua chon: ";
-			cin>>luachon;
-			switch (luachon)
-			{
+			cout << "\n1. Them Doc Gia";
+			cout << "\n2. Xoa Doc Gia";
+			cout << "\n3. Xuat danh sach hien tai";
+			cout << "\n4. Tra cuu doc gia";
+			cout << "\n5. Cap nhat sach cua doc gia";
+			cout << "\n6. Tinh tien doc gia thong qua Ma The";
+			cout << "\n7. Ghi file";
+			cout << "\n0. Thoat chuong trinh\n";
+			cout << "(!) Nhap lua chon: ";
+			cin >> luachon;
+			switch (luachon) {
 			case 1:
 				cout<<"1.Them thu cong.\n2.Them bang file.\n";
 				int n;
